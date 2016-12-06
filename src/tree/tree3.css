@@ -52,11 +52,12 @@
     left:29px;
     display: inline-block;
     color: #fff;
-    font-weight: bold;
+    /*font-weight: bold;*/
     padding: 2px;
-    border-radius: 4px;
-    border: 2px solid #fff;
-    box-shadow: 0px 0px 12px #fff;
+    border-radius: 2px;
+    border: 1px solid #fff;
+    /*box-shadow: 0px 0px 12px #fff;*/
+    /*text-shadow: 0px 0px 12px #fff;*/
 }
 @keyframes treeItemShow {
     0%{width: 0px}  100%{width: 100%}

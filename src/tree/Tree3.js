@@ -47,21 +47,12 @@ class Tree3 extends Component {
         var tip = document.getElementById('treeTip');
         var tipContent = document.getElementById('treeTipContent');
         var rect = e.target.getBoundingClientRect();
-        // var top = e.target.getBoundingClientRect().top;
-        // var left = e.target.getBoundingClientRect().left;
-        // console.log(e.target.getBoundingClientRect())
         tip.className = 'info info-show';
         tip.style.top = Math.ceil(rect.top - rect.height + 4) + 'px';
-        // tip.style.left = Math.ceil(rect.left + rect.width+7)+'px' ;
         tip.style.left = '149px';
-        // console.log(rect.top -rect.height+4,rect.left + rect.width+7)
-
-        // tipContent.style.width = '50px';
-        
-        // tipContent.style.height = '100px';
-        tipContent.style.overflow = 'hidden';
-        tipContent.style.animation = `treeItemShow 0.5s ease`;
-        tipContent.style.animationFillMode = 'forwards';
+        // tipContent.style.overflow = 'hidden';
+        // tipContent.style.animation = `treeItemShow 0.5s ease`;
+        // tipContent.style.animationFillMode = 'forwards';
         this.idxInterval = setInterval(() => {
 
         }, 200)
@@ -74,14 +65,14 @@ class Tree3 extends Component {
     }
 
     hideTip() {
-        // clearInterval(this.idxInterval);
-        // this.idxInterval = setInterval(()=> {
-        //     var tip = document.getElementById('treeTip');
-        //     if (tip) {
-        //         tip.className = 'info info-hide';
-        //     }
-        //
-        // }, 100);
+        clearInterval(this.idxInterval);
+        this.idxInterval = setInterval(()=> {
+            var tip = document.getElementById('treeTip');
+            if (tip) {
+                tip.className = 'info info-hide';
+            }
+        
+        }, 100);
         // var tipContent = document.getElementById('treeTipContent');
         // tipContent.style.animation = `treeItemClose 0.1s ease`;
         // tipContent.style.animationFillMode = 'forwards';
@@ -149,6 +140,9 @@ class Tree3 extends Component {
                     <div className="tip1"></div>
                     <div id='treeTipContentDetail' className="tip2">dsaddf</div>
                 </div>
+            </div>
+            <div className="treeTitle hand unselectable" >
+                choose
             </div>
         </div>)
     }

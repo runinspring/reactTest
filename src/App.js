@@ -29,7 +29,7 @@ class App extends Component {
 		}
 		return (
 			<div>
-				{/*<iframe className="backGroundIframe" src="./pages/loading/index.html"></iframe>*/}
+				{/*<iframe className="backGroundIframe" width="750" height="530" src="./pages/loading/index.html"></iframe>*/}
 				<div style={{position:"absolute"}}>
 					11234567889
 					<Tree/>
