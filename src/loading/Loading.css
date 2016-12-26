@@ -1,0 +1,42 @@
+@font-face {
+ font-family: 'deadstar';
+ src: url('deadstar.otf') format('truetype');
+}  
+.LoadingWordEff{
+  text-shadow:#337EE3 1px 0 0,#337EE3 0 1px 0,#337EE3 -1px 0 0,#337EE3 0 -1px 0;
+}
+.LoadingWord{
+  font-family: deadstar;
+  font-size: 80px;
+  /*color: rgba(0,0,0,0.9);*/
+  color: #000;
+  
+}
+.LoadingWordEff2{
+  text-shadow:#337EE3 1px 0 0,#337EE3 0 1px 0,#337EE3 -1px 0 0,#337EE3 0 -1px 0;
+}
+.LoadingWordEff:hover{
+    animation: LoadingWordHover 0.3s ease-in-out infinite alternate;
+}
+@-webkit-keyframes LoadingWordHover {
+  from {
+    text-shadow: 0 0 10px #fff,
+               0 0 20px  #fff,
+               0 0 30px  #fff,
+               0 0 40px  #228DFF,
+               0 0 70px  #228DFF,
+               0 0 80px  #228DFF,
+               0 0 100px #228DFF,
+               0 0 150px #228DFF;
+  }
+  to {
+    text-shadow: 0 0 5px #fff,
+               0 0 10px #fff,
+               0 0 15px #fff,
+               0 0 20px #228DFF,
+               0 0 35px #228DFF,
+               0 0 40px #228DFF,
+               0 0 50px #228DFF,
+               0 0 75px #228DFF;
+  }
+}
