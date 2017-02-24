@@ -1,0 +1,89 @@
+
+.treeTitle{
+    border: none;
+    position: relative;
+    padding: 0 3px 0 3px;
+    margin: 1px;
+}
+.treeTitle:before, .treeTitle:after{ 
+    content: ''; 
+    display: block;
+    height: 100%; 
+    width: 5px; 
+    border: 1px solid #fff;
+    position: absolute;
+    top: -1px;
+}
+.treeTitle:before{ left: 0; border-right: 0; }
+.treeTitle:after{ right: 0; border-left: 0; }
+
+.treeItem{
+    white-space:nowrap;
+    overflow: hidden;
+}
+.treeItemBG{
+    border-radius: 1px;
+    background: #ffffff;
+    height:100%;
+}
+.treeItemBGOut{
+    color: #000000;
+}
+.treeItemBGOut:hover{
+    color: #228DFF;
+    animation: treeItemHover 0.3s ease-in-out infinite alternate;
+}
+.info {position: absolute;height: 0px}
+.info-hide{visibility: hidden;}
+.info-show{visibility: visible;}
+.tip1{
+    position: absolute;
+    background-color: #ffffff;
+    width: 30px;
+    height: 2px;
+    top:24px;
+    overflow: hidden;
+    transform: rotate(-20deg);
+}
+.tip2{
+  /*margin: 10px;*/
+    position: absolute;
+    white-space:nowrap;
+    left:29px;
+    display: inline-block;
+    color: #fff;
+    /*font-weight: bold;*/
+    padding: 2px;
+    border-radius: 2px;
+    border: 1px solid #fff;
+    /*box-shadow: 0px 0px 12px #fff;*/
+    /*text-shadow: 0px 0px 12px #fff;*/
+}
+@keyframes treeItemShow {
+    0%{width: 0px}  100%{width: 100%}
+}
+@keyframes treeItemClose {
+    0%{width: 100%} 100%{width: 0px;}
+}
+@-webkit-keyframes treeItemHover {
+  from {
+    box-shadow: 0 0 10px #fff,
+               0 0 20px  #fff,
+               0 0 30px  #fff,
+               0 0 40px  #228DFF,
+               0 0 70px  #228DFF,
+               0 0 80px  #228DFF,
+               0 0 100px #228DFF,
+               0 0 150px #228DFF;
+  }
+  to {
+    box-shadow: 0 0 5px #fff,
+               0 0 10px #fff,
+               0 0 15px #fff,
+               0 0 20px #228DFF,
+               0 0 35px #228DFF,
+               0 0 40px #228DFF,
+               0 0 50px #228DFF,
+               0 0 75px #228DFF;
+  }
+}

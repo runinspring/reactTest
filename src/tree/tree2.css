@@ -1,0 +1,31 @@
+.treeItem{
+    color: #000000;
+    overflow: hidden;
+}
+.treeItemBG{
+    border-radius: 1px;
+    background: #ffffff;
+    height:100%;
+}
+.treeItemBGOut{
+    opacity: 0.5;
+}
+@keyframes treeItemShow {
+    0%{width: 0px}  100%{width: 100%}
+}
+@keyframes treeItemClose {
+    0%{width: 100%} 100%{width: 0px;}
+}
+@keyframes treeItemOver {
+    0%{opacity: 0.5} 100%{opacity: 0.9}
+}
+@keyframes treeItemOut {
+    0%{opacity: 0.9} 100%{opacity: 0.5}
+}
+@keyframes treeItemClick {
+    0%{opacity: 0.1} 20%{opacity:0.9} 40%{opacity: 0.1} 60%{opacity: 0.9} 80%{opacity: 0.1} 100%{opacity: 0.9}
+}
+@keyframes treeItemClickEnd {
+    0%{opacity: 0.9} 100%{opacity: 0.9}
+}
+
