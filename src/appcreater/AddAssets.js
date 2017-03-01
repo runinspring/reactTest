@@ -4,22 +4,28 @@ import UploadArea from './UploadArea';
 import { Input } from 'antd';
 class AddAssets extends Component {
 	state = {
-		
+		value: '4.0.2',
+		projectName: 'HelloEgret'
 	}
-	callback(key) {
-		console.log(key,this);
+	onInput(e) {
+		// console.log(e.target.value)
+		this.setState({ value: e.target.value })
 	}
-	onInput(e){
-		console.log(e.target.value)
-	}
-	checkVersion(){
-
+	onChangeName(e) {
+		this.setState({ projectName: e.target.value })
 	}
 	render() {
 		return (
-			<div>
-				<Input placeholder="请输入版本号，如4.0.2" onChange={this.onInput.bind(this)}/>
-				<UploadArea type={2} disable={false}/>
+			<div style={{ textAlign: 'left' }}>
+				<div>
+					需要的安卓support版本号：
+				<Input style={{ width: '100px' }} value={this.state.value} onChange={this.onInput.bind(this)} />
+				</div>
+				<div>
+					项目名称：
+				<Input style={{ width: '300px' }} value={this.state.projectName} onChange={this.onChangeName.bind(this)} />
+				</div>
+				<UploadArea projectType={3} supportVersion={this.state.value} projectName={this.state.projectName} />
 			</div>
 		);
 	}
