@@ -10,6 +10,9 @@ function AndroidNativeAutoPackage() {
 	this.isEclipseProject = true;
 	this.egretProjectName = "HelloTemplate";
 	this.androidSupportVersion = "4.0.2";
+	this.statusBuildCallBack = null;//编译进度的回调方法
+	this.buildEndCallBack = null;//编译完成的回调方法
+	
 }
 
 AndroidNativeAutoPackage.prototype = new AutoPackage();
@@ -20,8 +23,6 @@ AndroidNativeAutoPackage.prototype.getBuildUrl = function () {
 	url += "&isEclipseProject=" + this.isEclipseProject;
 	url += "&egretProjectName=" + this.egretProjectName;
 	url += "&androidSupportVersion=" + this.androidSupportVersion;
-
-
 	return url;
 }
 //完整的EclipseProject
@@ -40,6 +41,7 @@ AndroidNativeAutoPackage.prototype.setFullAndroidStudioProject = function (proje
 }
 //只有资源包
 AndroidNativeAutoPackage.prototype.setAssetsProject = function (projectZipFileName, egretProjectName, androidSupportVersion) {
+	// console.log('AndroidNativeAutoPackage',this)
 	this.projectZipFileName = projectZipFileName || this.projectZipFileName;
 	this.egretProjectName = egretProjectName || this.egretProjectName;
 	this.androidSupportVersion = androidSupportVersion || this.androidSupportVersion;
@@ -49,8 +51,11 @@ AndroidNativeAutoPackage.prototype.setAssetsProject = function (projectZipFileNa
 }
 
 AndroidNativeAutoPackage.prototype.statusCallback = function (msg) {//更新进度，当前的进度信息
-	var oNativeProgress = $("#nativeProgress")[0];
-	oNativeProgress.innerHTML = msg;
+	// console.log('statusCallback',g_android_native_auto_package_mgr)
+	var mgr = g_android_native_auto_package_mgr;
+	mgr.getAutoPackage().statusBuildCallBack(msg);
+	// var mgr = g_android_native_auto_package_mgr;
+	// mgr.getAutoPackage().buildEndCallBack('http://asdfasdaf.com'+Math.floor(Math.random()*100));
 }
 
 AndroidNativeAutoPackage.prototype.successCallback = function (jobUrl, buildNumber) {//成功之后的url地址
@@ -71,6 +76,9 @@ AndroidNativeAutoPackage.prototype.successCallback = function (jobUrl, buildNumb
 	} else {
 		url = jobUrl + "/" + buildNumber + "/artifact/" + dir + "/proj.android/app/build/outputs/apk/app-debug.apk";
 	}
+	var mgr = g_android_native_auto_package_mgr;
+	mgr.getAutoPackage().buildEndCallBack(url);
+	
 	//todo 
 	//输出地址信息
 
@@ -97,13 +105,15 @@ function getAndroidNativeAutoPackageMgr() {
 	return g_android_native_auto_package_mgr;
 }
 
-function startAndroidNativeAutoPackage(type, zipName, projectName, supportVersion) {
+function startAndroidNativeAutoPackage(type, zipName, projectName, supportVersion,statusBuildCallBack,buildEndCallBack) {
 	// console.log('type:', type, "fileName:", zipName, 'projectName:', projectName, 'supportVersion:', supportVersion);
-
-	return;
+	// console.log('statusBuildCallBack',statusBuildCallBack)
 	var mgr = getAndroidNativeAutoPackageMgr();
 	var autoPackage = mgr.getAutoPackage();
 	autoPackage.setStartTime(new Date());
+	// console.log(666,autoPackage)
+	autoPackage.statusBuildCallBack = statusBuildCallBack;//状态的反回方法
+	autoPackage.buildEndCallBack = buildEndCallBack;//编译完成的回调方法
 	switch (type) {
 		case 1:
 			autoPackage.setFullEclipseProject(zipName);
@@ -115,6 +125,10 @@ function startAndroidNativeAutoPackage(type, zipName, projectName, supportVersio
 			autoPackage.setAssetsProject(zipName, projectName, supportVersion);
 			break;
 	}
+	
+	// console.log('sadfasd',autoPackage)
+	// buildEndCallBack('http://baidu.com')
+	// return;
 	mgr.startPackage();
 }
 function stopAndroidNativeAutoPackage() {

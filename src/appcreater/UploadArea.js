@@ -8,7 +8,14 @@ class UploadArea extends Component {
 		autoBuild: 0,//0：上传后自动打包，1：不自动打包
 		upLoadEnd: false,//是否上传成功
 		startPackage: false,//是否开始打包
+		statusPackage:'',//打包的进度
+		downloadUrls:[],//最终的下载地址
+		buildEnd:false,//打包结束
 	}
+	/**
+	 * 开始打包
+	 * @param click 是否是点击触发的
+	 */
 	startBuild(click,fileName) {
 		console.log('开始打包')
 		// console.log(this.)
@@ -20,7 +27,7 @@ class UploadArea extends Component {
 			} else {
 				if (this.state.autoBuild === 0 || click === true) {
 					this.setState({ startPackage: true,output:'开始打包' });
-					startAndroidNativeAutoPackage(this.props.projectType,fileName,this.props.projectName,this.props.supportVersion)
+					this.sendBuildMessage(fileName);//发送打包的消息
 				} else {
 					this.setState({ startPackage: false });
 				}
@@ -28,12 +35,25 @@ class UploadArea extends Component {
 		} else {//工程版本
 			if (this.state.autoBuild === 0 || click === true) {
 				this.setState({ startPackage: true,output:'开始打包'});
-				startAndroidNativeAutoPackage(this.props.projectType,fileName,this.props.projectName,this.props.supportVersion)
+				this.sendBuildMessage(fileName);//发送打包的消息
+				// startAndroidNativeAutoPackage(this.props.projectType,fileName,this.props.projectName,this.props.supportVersion)
 			} else {
 				this.setState({ startPackage: false });
 			}
 		}
 	}
+	sendBuildMessage(fileName){//发送打包的消息
+		startAndroidNativeAutoPackage(this.props.projectType,fileName,this.props.projectName,this.props.supportVersion,
+			(status)=>{this.setState({statusPackage:status})},
+			(apkurl)=>{//打包结束的回调
+				var arr = this.state.downloadUrls;
+				arr.unshift(apkurl);
+				this.setState({downloadUrls:arr,output:'打包完成',buildEnd:true,startPackage:false,upLoadEnd: false})
+			},
+		)
+	}
+	// (status)=>{console.log('status:',status)}
+	// this.setState({statusPackage:status})
 	stopBuild() {
 		this.setState({startPackage:false})
 		stopAndroidNativeAutoPackage();
@@ -49,13 +69,21 @@ class UploadArea extends Component {
 			return true;
 		}
 	}
+	getDownloadUrls(){//获得最终的下载地址
+		return this.state.downloadUrls.map((item,index)=>{
+			// console.log('ind:',index,'item',item)
+			return <div key={'url'+index}><a href={item} target="_blank">{item}</a></div>
+			
+		})
+
+	}
 	render() {
 		var self = this;
 		//上传的所有参数  https://ant.design/components/upload-cn/
 		let uploadProps = {
-			// action: 'http://10.0.12.5:8081/upload',//上传的地址
-			// action: 'http://10.0.7.156:8081/upload',
-			action: '/upload',
+			// action: 'http://10.0.7.156:8081/upload',//本地上传的地址
+			// action: 'http://10.0.12.5:8081/upload',//正式服务器
+			action: './upload',
 			// name: 'user_file',
 			method: 'post',
 			onChange(info) {
@@ -96,7 +124,9 @@ class UploadArea extends Component {
 			buildButton = true;
 		}
 		var stepNum = 1;//默认步骤
-		if (this.state.upLoadEnd) {
+		if(this.state.buildEnd){
+			stepNum =4;
+		}else if(this.state.upLoadEnd) {
 			stepNum = 2;
 			if (this.state.startPackage) {
 				stepNum = 3;//开始打包了
@@ -130,12 +160,16 @@ class UploadArea extends Component {
 					<Step title='基本设置' />
 					<Step title="上传zip包" description="" />
 					<Step title={this.state.autoBuild === 0 ? "自动打包" : "手动打包"} description="" />
-					<Step title="打包中" description="" />
+					<Step title="打包中" description={this.state.statusPackage} />
 					<Step title="完成" description="" />
 				</Steps>
 				<div style={{ textAlign: 'left', fontWeight: "bold", fontSize: '16px', color: 'red' }} >
 					{this.state.output}
 				</div>
+				<div>
+					{this.getDownloadUrls()}
+				</div>
+				
 			</div>
 		);
 	}
