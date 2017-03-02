@@ -12,13 +12,24 @@ class UploadArea extends Component {
 		downloadUrls:[],//最终的下载地址
 		buildEnd:false,//打包结束
 	}
+	componentWillMount(){
+		// console.log('init',window.location.host,window.location.port,window.location.pathname)
+		var url = window.location.host;
+		var port = window.location.port;
+		var protocol = window.location.protocol;
+		url = url.replace(`:${port}`,"")
+		url = `${protocol}//${url}:8081/upload`;
+		// console.log('url2',url)
+		this.uploadURL = url;
+
+	}
 	/**
 	 * 开始打包
 	 * @param click 是否是点击触发的
 	 */
 	startBuild(click,fileName) {
 		console.log('开始打包')
-		// console.log(this.)
+		// console.log('ipload2:',this.uploadURL)
 		// console.log('fileName:',fileName)
 		if (this.props.projectType === 3) {//assets
 			console.log('this.props.supportVersion:',this.props.supportVersion)
@@ -75,15 +86,17 @@ class UploadArea extends Component {
 			return <div key={'url'+index}><a href={item} target="_blank">{item}</a></div>
 			
 		})
-
 	}
 	render() {
 		var self = this;
+		// console.log('render')
 		//上传的所有参数  https://ant.design/components/upload-cn/
+		// console.log(78787,this.uploadURL)
 		let uploadProps = {
 			// action: 'http://10.0.7.156:8081/upload',//本地上传的地址
 			// action: 'http://10.0.12.5:8081/upload',//正式服务器
-			action: './upload',
+			// action: './upload',
+			action:self.uploadURL,
 			// name: 'user_file',
 			method: 'post',
 			onChange(info) {
